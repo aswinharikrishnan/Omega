@@ -7,8 +7,17 @@ import TimelineDot from "@mui/lab/TimelineDot";
 import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
 
 const TimelineCard = ({ item, mobile, index }) => {
+  const isBottom = index % 2 === 1; // alternate rows
+
   return (
-    <TimelineItem>
+    <TimelineItem
+      sx={{
+        display: "flex",
+        flexDirection: isBottom ? "column-reverse" : "column",
+        alignItems: "center",
+      }}
+    >
+      {/* Opposite date (desktop only) */}
       {!mobile && (
         <TimelineOppositeContent
           color="white"
@@ -18,16 +27,16 @@ const TimelineCard = ({ item, mobile, index }) => {
           {item.date}
         </TimelineOppositeContent>
       )}
+
+      {/* Dot & connectors */}
       <TimelineSeparator>
-        {index === 0 ? (
-          <TimelineConnector style={{ backgroundColor: "transparent" }} />
-        ) : (
-          <TimelineConnector
-            style={{ backgroundColor: "rgba(255, 255, 255, 1)" }}
-          />
+        {/* Top connector only if not the first item */}
+        {!isBottom && index !== 0 && (
+          <TimelineConnector style={{ backgroundColor: "rgba(255,255,255,1)" }} />
         )}
+
         <TimelineDot
-          style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+          style={{ backgroundColor: "rgba(255,255,255,0.1)" }}
           className="bg-opacity-30"
         >
           <div
@@ -35,18 +44,17 @@ const TimelineCard = ({ item, mobile, index }) => {
             className="size-[8px] rounded-full"
           />
         </TimelineDot>
-        {/* make the line trasnparent by changing the index here */}
-        {index === 1 ? (
-          <TimelineConnector style={{ backgroundColor: "transparent" }} />
-        ) : (
-          <TimelineConnector
-            style={{ backgroundColor: "rgba(255, 255, 255, 1)" }}
-          />
+
+        {/* Bottom connector only if not the last item */}
+        {isBottom && index !== 5 && (
+          <TimelineConnector style={{ backgroundColor: "rgba(255,255,255,1)" }} />
         )}
       </TimelineSeparator>
-      <TimelineContent sx={{ m: "auto 0" }}>
+
+      {/* Content card */}
+      <TimelineContent sx={{ m: "20px 0" }}>
         <div
-          className="relative rounded-[26px] bg-[#FFF]/[.05] md:my-[40px] py-[28px] gap-[5px] px-[21px] text-left border-[2px] border-[#FFF] flex flex-col overflow-hidden"
+          className="relative rounded-[26px] bg-[#FFF]/[.05] py-[28px] gap-[5px] px-[21px] text-left border-[2px] border-[#FFF] flex flex-col overflow-hidden"
           data-aos="fade-up"
         >
           <span className="font-orbitron text-[#FFF] text-xl font-[500]">
